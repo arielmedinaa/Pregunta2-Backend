@@ -72,6 +72,5 @@ Este proyecto es el backend del juego **Pregunta2**, una aplicación de trivia m
 3. Broadcast de actualizaciones a todos los miembros del equipo.
 
 
-git clone https://github.com/tuusuario/preguntados-backend.git
-cd preguntados-backend
+git clone https://github.com/arielmedinaa/Pregunta2-Backend.git
 
