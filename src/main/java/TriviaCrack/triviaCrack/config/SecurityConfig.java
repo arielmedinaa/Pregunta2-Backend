@@ -17,25 +17,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 
-@Configuration// Importar la implementación concreta
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl; // Cambiado a la implementación concreta
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final JwtAuthFilter jwtAuthFilter;
-
-    // Se necesita solo un constructor. Spring usará el que tenga todas las dependencias.
-    // Eliminar el constructor anterior que solo tomaba UserDetailsService y JwtAuthFilter.
 
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    // Constructor único con todas las dependencias necesarias
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl,
                           JwtAuthFilter jwtAuthFilter,
                           CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
                           CustomAccessDeniedHandler customAccessDeniedHandler) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl; // Usar el nombre correcto de la variable de instancia
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
         this.jwtAuthFilter = jwtAuthFilter;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
@@ -46,7 +42,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/ws/**").permitAll() // Permitir acceso a WebSockets también
+                        .requestMatchers("/auth/**", "/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
@@ -54,7 +50,7 @@ public class SecurityConfig {
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptions -> exceptions // Agregado
+                .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
                         .accessDeniedHandler(customAccessDeniedHandler)
                 );
